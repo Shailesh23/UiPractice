@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import co.fmauipractice.FMARetrofitServer;
 import co.fmauipractice.pojos.Artist;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,7 +26,10 @@ public class ServerCall implements Callback<Artist> {
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
 
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new StethoInterceptor()).build();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         retrofit = new Retrofit.Builder().client(okHttpClient).baseUrl("https://freemusicarchive.org/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
