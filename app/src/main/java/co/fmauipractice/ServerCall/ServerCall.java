@@ -1,11 +1,11 @@
 package co.fmauipractice.ServerCall;
 
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import co.fmauipractice.FMARetrofitServer;
+import co.fmauipractice.interfaces.NetworkDownloadCallFinished;
 import co.fmauipractice.pojos.Artist;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -20,8 +20,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ServerCall implements Callback<Artist> {
     private Retrofit retrofit;
-
-    public ServerCall() {
+    private NetworkDownloadCallFinished callback;
+    public ServerCall(NetworkDownloadCallFinished callback) {
+        this.callback = callback;
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
@@ -44,7 +45,8 @@ public class ServerCall implements Callback<Artist> {
 
     @Override
     public void onResponse(Call<Artist> call, Response<Artist> response) {
-        System.out.println(response.body());
+        callback.serverResult(response);
+        //System.out.println(response.body());
     }
 
     @Override

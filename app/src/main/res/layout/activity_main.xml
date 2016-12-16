@@ -13,5 +13,13 @@
         android:id="@+id/btn_call_server"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="call server" />
+        android:text="call server"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/text_server_response"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btn_call_server" />
 </RelativeLayout>
