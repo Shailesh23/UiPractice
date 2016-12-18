@@ -1,4 +1,4 @@
-package application;
+package co.fmauipractice.application;
 
 import android.app.Application;
 

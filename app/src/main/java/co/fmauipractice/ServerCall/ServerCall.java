@@ -6,7 +6,8 @@ import com.google.gson.GsonBuilder;
 
 import co.fmauipractice.FMARetrofitServer;
 import co.fmauipractice.interfaces.NetworkDownloadCallFinished;
-import co.fmauipractice.pojos.Artist;
+import co.fmauipractice.pojos.Artists;
+import co.fmauipractice.pojos.DataSetInfo;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -18,11 +19,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Shal on 11-09-2016.
  */
-public class ServerCall implements Callback<Artist> {
+public class ServerCall {
+
     private Retrofit retrofit;
-    private NetworkDownloadCallFinished callback;
-    public ServerCall(NetworkDownloadCallFinished callback) {
-        this.callback = callback;
+    FMARetrofitServer fmaRetrofitServer;
+
+    public ServerCall() {
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
@@ -35,22 +37,12 @@ public class ServerCall implements Callback<Artist> {
         retrofit = new Retrofit.Builder().client(okHttpClient).baseUrl("https://freemusicarchive.org/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
+
+        fmaRetrofitServer = retrofit.create(FMARetrofitServer.class);
     }
 
-    public void getTypeList() {
-        FMARetrofitServer fmaRetrofitServer = retrofit.create(FMARetrofitServer.class);
-        Call<Artist> artistCall = fmaRetrofitServer.getTypeFromFMAServer("artists");
-        artistCall.enqueue(this);
-    }
-
-    @Override
-    public void onResponse(Call<Artist> call, Response<Artist> response) {
-        callback.serverResult(response);
-        //System.out.println(response.body());
-    }
-
-    @Override
-    public void onFailure(Call<Artist> call, Throwable t) {
-        System.out.println(t);
+    public void getArtistsTypeList(Callback<DataSetInfo<Artists>> callback) {
+        Call<DataSetInfo<Artists>> artistCall = fmaRetrofitServer.getArtistFromFMAServer();
+        artistCall.enqueue(callback);
     }
 }

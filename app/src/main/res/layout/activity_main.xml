@@ -13,7 +13,7 @@
         android:id="@+id/btn_call_server"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="call server"
+        android:text="Load artists"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 

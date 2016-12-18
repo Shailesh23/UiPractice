@@ -1,6 +1,6 @@
 package co.fmauipractice.interfaces;
 
-import co.fmauipractice.pojos.Artist;
+import co.fmauipractice.pojos.DataSetInfo;
 import retrofit2.Response;
 
 /**
@@ -8,5 +8,5 @@ import retrofit2.Response;
  */
 public interface NetworkDownloadCallFinished {
 
-    void serverResult(Response<Artist> artistResponse);
+    void serverResult(Response<DataSetInfo> artistResponse);
 }

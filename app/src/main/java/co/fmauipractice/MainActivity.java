@@ -1,5 +1,6 @@
 package co.fmauipractice;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,8 +8,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import co.fmauipractice.ServerCall.ServerCall;
+import co.fmauipractice.activities.ArtistActivity;
 import co.fmauipractice.interfaces.NetworkDownloadCallFinished;
-import co.fmauipractice.pojos.Artist;
+import co.fmauipractice.pojos.DataSetInfo;
+import co.fmauipractice.pojos.DataSetTypes;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NetworkDownloadCallFinished{
@@ -26,14 +29,14 @@ public class MainActivity extends AppCompatActivity implements NetworkDownloadCa
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ServerCall serverCall = new ServerCall(MainActivity.this);
-                serverCall.getTypeList();
+                Intent artistIntent = new Intent(MainActivity.this, ArtistActivity.class);
+                startActivity(artistIntent);
             }
         });
     }
 
     @Override
-    public void serverResult(Response<Artist> artistResponse) {
-        textView.setText(artistResponse.body().toString());
+    public void serverResult(Response<DataSetInfo> serverResponse) {
+        textView.setText(serverResponse.body().toString());
     }
 }

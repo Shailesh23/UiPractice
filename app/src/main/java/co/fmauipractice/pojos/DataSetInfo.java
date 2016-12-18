@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Artist {
+public class DataSetInfo<T> {
 
     @SerializedName("title")
     @Expose
@@ -30,7 +30,7 @@ public class Artist {
     private String limit;
     @SerializedName("dataset")
     @Expose
-    private List<Dataset> dataset = null;
+    private List<T> dataset = null;
 
     public String getTitle() {
         return title;
@@ -88,11 +88,11 @@ public class Artist {
         this.limit = limit;
     }
 
-    public List<Dataset> getDataset() {
+    public List<T> getDataset() {
         return dataset;
     }
 
-    public void setDataset(List<Dataset> dataset) {
+    public void setDataset(List<T> dataset) {
         this.dataset = dataset;
     }
 
