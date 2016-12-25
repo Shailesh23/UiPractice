@@ -41,8 +41,9 @@ public class ServerCall {
         fmaRetrofitServer = retrofit.create(FMARetrofitServer.class);
     }
 
-    public void getArtistsTypeList(Callback<DataSetInfo<Artists>> callback) {
-        Call<DataSetInfo<Artists>> artistCall = fmaRetrofitServer.getArtistFromFMAServer();
+    public void getArtistsTypeList(Callback<DataSetInfo<Artists>> callback, int page) {
+        Call<DataSetInfo<Artists>> artistCall;
+        artistCall = fmaRetrofitServer.getArtistFromFMAServerWithPage(page);
         artistCall.enqueue(callback);
     }
 }

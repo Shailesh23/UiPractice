@@ -19,6 +19,9 @@ public class ArtistActivity extends AppCompatActivity implements Callback<DataSe
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     RecycleDataAdapter recycleDataApdapter;
+    boolean loading;
+    int page = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,17 +32,43 @@ public class ArtistActivity extends AppCompatActivity implements Callback<DataSe
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        recycleDataApdapter = new RecycleDataAdapter();
+        recyclerView.setAdapter(recycleDataApdapter);
+        recycleDataApdapter.setContext(ArtistActivity.this);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (loading) {
+                    return;
+                }
+                int totalCount = layoutManager.getItemCount();
+                int visibleItemCount = layoutManager.getChildCount();
+                int pastVisibleCount = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                if (pastVisibleCount + visibleItemCount >= totalCount) {
+                    loadNewContent();
+                }
+            }
+        });
+
+        loadNewContent();
+    }
+
+    void loadNewContent() {
         //TODO: Use DI to get this object
         ServerCall serverCall = new ServerCall();
-        serverCall.getArtistsTypeList(this);
+        serverCall.getArtistsTypeList(this, page++);
+        loading = true;
     }
 
     @Override
     public void onResponse(Call<DataSetInfo<Artists>> call, Response<DataSetInfo<Artists>> response) {
-        recycleDataApdapter = new RecycleDataAdapter();
-        recycleDataApdapter.addItem(response.body().getDataset());
 
-        recyclerView.setAdapter(recycleDataApdapter);
+        recycleDataApdapter.addItem(response.body().getDataset());
+        recycleDataApdapter.notifyDataSetChanged();
+        loading = false;
+
         System.out.println(response.body().getTitle());
     }
 

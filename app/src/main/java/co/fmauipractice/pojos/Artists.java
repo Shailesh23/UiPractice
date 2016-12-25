@@ -1,11 +1,15 @@
 
 package co.fmauipractice.pojos;
 
+import android.text.TextUtils;
+
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Artists {
+import co.fmauipractice.interfaces.DataSet;
+
+public class Artists{
 
     @SerializedName("artist_id")
     @Expose
@@ -282,5 +286,4 @@ public class Artists {
     public void setArtistImages(List<ArtistImage> artistImages) {
         this.artistImages = artistImages;
     }
-
 }
