@@ -1,0 +1,10 @@
+<resources>
+    <declare-styleable name="DialerView">
+        <attr name="circleColor" format="color" />
+        <attr name="circleLabel" format="string"/>
+        <attr name="labelColor" format="color"/>
+        <attr name="imageSet" format="reference"/>
+        <attr name="circleRadius" format="integer"/>
+        <attr name="circleSections" format="integer"/>
+    </declare-styleable>
+</resources>

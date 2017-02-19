@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">FMAUiPractice</string>
     <string name="title_activity_artist">ArtistActivity</string>
+    <string name="reset_button">Reset</string>
 </resources>

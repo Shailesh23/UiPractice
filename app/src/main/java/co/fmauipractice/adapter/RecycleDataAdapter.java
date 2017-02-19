@@ -42,7 +42,6 @@ public class RecycleDataAdapter extends RecyclerView.Adapter<RecycleDataAdapter.
         String name = artist.getArtistName();
         String url = dataList.get(position).getArtistImageFile().replaceAll("\\\\","");
 
-
         holder.artistBio.setText(bio);
         holder.artistName.setText(name);
 
