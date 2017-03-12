@@ -16,6 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
 
+import java.util.ArrayList;
+
 import co.fmauipractice.R;
 
 
@@ -107,7 +109,9 @@ public class DialerView extends View {
         for (int index = 0; index < numberOfSections; index++) {
             float sectionAngle = index * angleOfItems;
             if ((sectionAngle <= angle) && ((sectionAngle + angleOfItems) >= angle)) {
+                selectedPosition = index;
                 Log.i("Dialer", "Hit spot - " + (index + 1));
+                invalidate();
                 break;
             }
         }
@@ -117,13 +121,19 @@ public class DialerView extends View {
         return Math.pow((clickX - circleCenterX), 2) + Math.pow((clickY - circleCenterY), 2) < Math.pow(radius, 2);
     }
 
+    int selectedPosition = 5;
+    ArrayList<Float> startXList = new ArrayList<>();
+    ArrayList<Float> startYList = new ArrayList<>();
+    ArrayList<Float> endXList = new ArrayList<>();
+    ArrayList<Float> endYList = new ArrayList<>();
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        double lineStartXPoint;
-        double lineStartYPoint;
-        double lineEndXPoint;
-        double lineEndYPoint;
+        float lineStartXPoint;
+        float lineStartYPoint;
+        float lineEndXPoint;
+        float lineEndYPoint;
 
         circlePaint.setStyle(Style.FILL);
         circlePaint.setAntiAlias(true);
@@ -148,7 +158,12 @@ public class DialerView extends View {
             lineEndXPoint = (float) ((circleRadius) * Math.cos(i * angleOfItems * Math.PI / 180F)) + centerX;
             lineEndYPoint = (float) ((circleRadius) * Math.sin(i * angleOfItems * Math.PI / 180F)) + centerY;
 
-            canvas.drawLine((float) lineStartXPoint, (float) lineStartYPoint, (float) lineEndXPoint, (float) lineEndYPoint, circlePaint);
+            startXList.add(lineStartXPoint);
+            startYList.add(lineStartYPoint);
+            endXList.add(lineEndXPoint);
+            endYList.add(lineEndYPoint);
+
+            canvas.drawLine(lineStartXPoint, lineStartYPoint, lineEndXPoint, lineEndYPoint, circlePaint);
         }
 
         path.addCircle(centerX, centerY, circleRadius - THUMB_SIZE_SPACE - INNER_CIRCLE_SPACE, Path.Direction.CW);
@@ -156,6 +171,16 @@ public class DialerView extends View {
 
         //add image
         canvas.drawBitmap(bm, 0, 0, circlePaint);
+        selectedPosition = (selectedPosition + 4) % 8;
+        int nextSpoke = (selectedPosition + 1) % numberOfSections;
+        path.reset();
+        circlePaint.setColor(circleCol);
+        path.moveTo(startXList.get(selectedPosition), startYList.get(selectedPosition));
+        path.lineTo(endXList.get(selectedPosition), endYList.get(selectedPosition));
+        path.lineTo(endXList.get(nextSpoke), endYList.get(nextSpoke));
+        path.lineTo(startXList.get(nextSpoke), startYList.get(nextSpoke));
+
+        canvas.drawPath(path, circlePaint);
     }
 
     public static Bitmap drawableToBitmap(Drawable drawable) {

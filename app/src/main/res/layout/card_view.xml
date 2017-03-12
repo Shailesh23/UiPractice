@@ -50,7 +50,7 @@
                 android:id="@+id/image_artist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/image" />
+                android:src="@drawable/girl" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
