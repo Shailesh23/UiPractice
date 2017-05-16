@@ -1,17 +1,15 @@
-package co.fmauipractice;
+package co.fmauipractice.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import co.fmauipractice.activities.ArtistActivity;
+import co.fmauipractice.R;
 import co.fmauipractice.customviews.DialerView;
 import co.fmauipractice.interfaces.NetworkDownloadCallFinished;
 import co.fmauipractice.pojos.DataSetInfo;

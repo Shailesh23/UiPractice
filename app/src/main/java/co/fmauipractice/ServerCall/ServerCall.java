@@ -8,6 +8,7 @@ import co.fmauipractice.FMARetrofitServer;
 import co.fmauipractice.interfaces.NetworkDownloadCallFinished;
 import co.fmauipractice.pojos.Artists;
 import co.fmauipractice.pojos.DataSetInfo;
+import dagger.Module;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;

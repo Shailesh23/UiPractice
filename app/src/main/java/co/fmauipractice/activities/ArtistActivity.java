@@ -5,11 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import javax.inject.Inject;
+
 import co.fmauipractice.R;
 import co.fmauipractice.ServerCall.ServerCall;
 import co.fmauipractice.adapter.RecycleDataAdapter;
+import co.fmauipractice.di.DaggerServerDiComponent;
 import co.fmauipractice.pojos.Artists;
 import co.fmauipractice.pojos.DataSetInfo;
+import dagger.Component;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,12 +24,17 @@ public class ArtistActivity extends AppCompatActivity implements Callback<DataSe
     RecyclerView.LayoutManager layoutManager;
     RecycleDataAdapter recycleDataApdapter;
     boolean loading;
+    @Inject ServerCall serverCall;
     int page = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_artist);
+
+        serverCall = DaggerServerDiComponent.builder().build().serverCaller();
 
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -57,7 +66,6 @@ public class ArtistActivity extends AppCompatActivity implements Callback<DataSe
 
     void loadNewContent() {
         //TODO: Use DI to get this object
-        ServerCall serverCall = new ServerCall();
         serverCall.getArtistsTypeList(this, page++);
         loading = true;
     }
