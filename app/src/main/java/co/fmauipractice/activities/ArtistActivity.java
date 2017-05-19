@@ -13,7 +13,6 @@ import co.fmauipractice.adapter.RecycleDataAdapter;
 import co.fmauipractice.di.DaggerServerDiComponent;
 import co.fmauipractice.pojos.Artists;
 import co.fmauipractice.pojos.DataSetInfo;
-import dagger.Component;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
